@@ -19,7 +19,7 @@ class CommentRepository {
     throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
   /**
-   * @TODO 6
+   * @ 6
    * Buatlah dua async method bernama `deleteComment` dan `getCommentsByThreadId`
    *
    * Pastikan method tersebut dibuat abstract dengan langsung

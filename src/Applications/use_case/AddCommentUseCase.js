@@ -10,7 +10,7 @@ class AddCommentUseCase {
     const newComment = new NewComment(useCasePayload);
     const { threadId } = newComment;
 
-    const thread = await this._threadRepository.getThreadById(threadId);
+    const thread = await this._threadRepository.isThreadExist(threadId);
     if (!thread) {
       throw new Error('ADD_COMMENT_USE_CASE.THREAD_NOT_FOUND');
     }

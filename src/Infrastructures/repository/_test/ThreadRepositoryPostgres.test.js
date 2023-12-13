@@ -16,24 +16,34 @@ describe('ThreadRepositoryPostgres', () => {
   describe('addThread', () => {
     it('should persist new thread and return added thread correctly', async () => {
       // Arrange
-      const repository = new ThreadRepositoryPostgres(pool, {});
+      const fakeIdGenerator = jest.fn(() => 'fake-thread-id');
+      const repository = new CommentRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
       const addedThread = await repository.addThread({
-        title: 'Test Thread',
-        body: 'Test Body',
+        title: 'Test-Thread',
+        body: 'Test-Body',
         owner: 'user-123',
       });
 
       // Assert
       const foundThread = await ThreadsTableTestHelper.findThreadById(addedThread.id);
-      expect(foundThread).toBeDefined();
+      
+      // Assert that the returned thread matches the expected values
+      expect(addedThread.id).toEqual('fake-thread-id');
+      expect(addedThread.title).toEqual('Test-Thread');
+      expect(addedThread.body).toEqual('Test-Body');
+      expect(addedThread.owner).toEqual('user-123');
+      expect(fakeIdGenerator).toHaveBeenCalledTimes(1);
+
+      // Assert that the thread is persisted correctly in the database
       expect(foundThread.id).toEqual(addedThread.id);
-      expect(foundThread.title).toEqual('Test Thread');
-      expect(foundThread.body).toEqual('Test Body');
-      expect(foundThread.owner).toEqual('user-123');
+      expect(foundThread.title).toEqual(addedThread.title);
+      expect(foundThread.body).toEqual(addedThread.body);
+      expect(foundThread.owner).toEqual(addedThread.owner);
+
       /**
-       * TODO 4
+       * @TODO 4
        * Lengkapi pengujian fungsi `addThread` agar kita dapat
        * memastikan bahwa fungsi tersebut memasukkan data ke dalam database dengan benar.
        *

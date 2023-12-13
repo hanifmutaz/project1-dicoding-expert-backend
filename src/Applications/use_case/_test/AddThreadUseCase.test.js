@@ -4,34 +4,26 @@ const AddThreadUseCase = require('../AddThreadUseCase');
 describe('AddThreadUseCase', () => {
   it('should orchestrating the add thread action correctly', async () => {
     // Arrange
-    const threadRepository = new ThreadRepository();
-    const addThreadUseCase = new AddThreadUseCase({ threadRepository });
-
-    // Mock the behavior of threadRepository
-    const fakeThread = { 
-      id: '123', 
-      title: 'Test Thread', 
-      content: 'Test Content'
+    const useCasePayload = {
+      title: 'Test-Thread',
+      body: 'Test-Body',
+      owner: 'user-123',
     };
-    const repositoryStub = sinon.stub(threadRepository, 'addThread').resolves(fakeThread);
 
-    // Act
-    const threadData = {
-      title: 'Test Thread',
-      content: 'Test Content'
+    const mockThreadRepository = {
+      addThread: jest.fn(() => Promise.resolve('fake-thread-id')),
     };
-    const result = await addThreadUseCase.execute(threadData);
+
+    const addThreadUseCase = new AddThreadUseCase({
+      threadRepository: mockThreadRepository,
+    });
+
+    // Action
+    const addedThread = await addThreadUseCase.execute(useCasePayload);
 
     // Assert
-    sinon.assert.calledOnce(repositoryStub);
-    sinon.assert.calledWith(repositoryStub, sinon.match({
-      title: 'Test Thread',
-      content: 'Test Content'
-    }));
-    expect(result).toEqual(fakeThread);
-
-    // Restore the original method after the test
-    repositoryStub.restore();
+    expect(addedThread).toEqual('fake-thread-id');
+    expect(mockThreadRepository.addThread).toHaveBeenCalledWith(useCasePayload);
     /**
      * @TODO 3
      * Lengkapi pengujian `AddThreadUseCase` agar dapat memastikan

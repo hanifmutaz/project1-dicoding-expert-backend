@@ -14,24 +14,22 @@ class NewComment {
   constructor(payload) {
     this._verifyPayload(payload);
 
-    this.threadId = payload.threadId;
-    this.content = payload.content;
-    this.owner = payload.owner;
+    const { threadId, content, owner } = payload;
 
+    this.threadId = threadId;
+    this.content = content;
+    this.owner = owner;
     // Lengkapi kodenya ...
   }
 
   _verifyPayload({ threadId, content, owner }) {
-    if (!threadId || typeof threadId !== 'string') {
-      throw new Error('NEW_COMMENT.THREAD_ID_INVALID');
+
+    if (!threadId || !content || !owner) {
+      throw new Error('NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
-    if (!content || typeof content !== 'string') {
-      throw new Error('NEW_COMMENT.CONTENT_INVALID');
-    }
-
-    if (!owner || typeof owner !== 'string') {
-      throw new Error('NEW_COMMENT.OWNER_INVALID');
+    if (typeof threadId !== 'string' || typeof content !== 'string' || typeof owner !== 'string') {
+      throw new Error('NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
     // Lengkapi kodenya ...
   }
