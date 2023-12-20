@@ -17,7 +17,7 @@ describe('ThreadRepositoryPostgres', () => {
     it('should persist new thread and return added thread correctly', async () => {
       // Arrange
       const fakeIdGenerator = jest.fn(() => 'fake-thread-id');
-      const repository = new CommentRepositoryPostgres(pool, fakeIdGenerator);
+      const repository = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
       const addedThread = await repository.addThread({

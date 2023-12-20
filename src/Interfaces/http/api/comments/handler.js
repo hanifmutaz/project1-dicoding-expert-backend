@@ -34,14 +34,14 @@ class CommentsHandler {
   async deleteCommentHandler(request) {
     const { id: owner } = request.auth.credentials;
     const { threadId, commentId: id } = request.params;
-    
     const useCase = this._container.getInstance(DeleteCommentUseCase.name);
 
-    await useCase.execute({
-      commentId: id,
-      threadId,
-      owner,
-    });
+    await useCase.execute({ id, threadId, owner });
+    return {
+      status: 'success',
+      message: 'Komentar berhasil dihapus',
+    };
+  
 
     /**
      * @TODO 9
@@ -49,12 +49,8 @@ class CommentsHandler {
      *
      * Untuk mendapatkan useCase, pastikan Anda memanfaatkan method `this._container.getInstance`
      */
-
-    return {
-      status: 'success',
-      message: 'Komentar berhasil dihapus',
-    };
   }
+  
 }
 
 module.exports = CommentsHandler;
