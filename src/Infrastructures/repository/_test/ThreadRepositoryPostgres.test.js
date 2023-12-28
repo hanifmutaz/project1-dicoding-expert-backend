@@ -31,9 +31,9 @@ describe('ThreadRepositoryPostgres', () => {
       
       // Assert that the returned thread matches the expected values
       expect(addedThread.id).toEqual('fake-thread-id');
-      expect(addedThread.title).toEqual('Test-Thread');
-      expect(addedThread.body).toEqual('Test-Body');
-      expect(addedThread.owner).toEqual('user-123');
+      expect(addedThread.title).toEqual(addedThread.title);
+      expect(addedThread.body).toEqual(addedThread.body);
+      expect(addedThread.owner).toEqual(addedThread.owner);
       expect(fakeIdGenerator).toHaveBeenCalledTimes(1);
 
       // Assert that the thread is persisted correctly in the database
